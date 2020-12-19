@@ -1,10 +1,9 @@
-from aiohttp import ClientSession
+
 import urllib.request
 import socket
 import urllib.error
-import lxml.html
 import asyncio
-from joblib import Parallel, delayed,parallel_backend
+from joblib import Parallel, delayed
 
 goodproxy = []
 def is_bad_proxy(pip):
