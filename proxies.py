@@ -4,7 +4,9 @@ import socket
 import urllib.error
 import lxml.html
 import asyncio
+from joblib import Parallel, delayed,parallel_backend
 
+goodproxy = []
 def is_bad_proxy(pip):
     try:
         proxy_handler = urllib.request.ProxyHandler({'https': pip})
@@ -22,25 +24,25 @@ def is_bad_proxy(pip):
     return False
 
 def write_file(list):
-    with open("good_proxy.txt", "w") as outfile:
+    with open("good_proxy", "w") as outfile:
         outfile.write("\n".join(str(item) for item in list))
 def open_file():
     with open('proxies.txt',"r") as f:
         lines = f.read().splitlines()
         return lines
 
-
-async def main():
-    socket.setdefaulttimeout(30)
-
-    proxyList = open_file()
-    goodproxy = []
-    for currentProxy in proxyList:
+def checker(currentProxy):
         if is_bad_proxy(currentProxy):
             print("Bad Proxy %s" % (currentProxy))
         else:
             print("%s is working" % (currentProxy))
             goodproxy.append(currentProxy)
+
+def main():
+    socket.setdefaulttimeout(30)
+
+    proxyList = open_file()
+    Parallel(n_jobs=17, require='sharedmem')(delayed(checker)(i) for i in proxyList)
     write_file(goodproxy)
 
 asyncio.run(main())
