@@ -23,7 +23,7 @@ def is_bad_proxy(pip):
     return False
 
 def write_file(list):
-    with open("good_proxy", "w") as outfile:
+    with open("good_proxy.txt", "w") as outfile:
         outfile.write("\n".join(str(item) for item in list))
 def open_file():
     with open('proxies.txt',"r") as f:
