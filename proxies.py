@@ -44,4 +44,4 @@ def main():
     Parallel(n_jobs=17, require='sharedmem')(delayed(checker)(i) for i in proxyList)
     write_file(goodproxy)
 
-asyncio.run(main())
+main()
